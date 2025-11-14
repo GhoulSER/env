@@ -1312,7 +1312,13 @@ local Env = getgenv()
             end))
 
             return Popup
-        end; Library.ColorpickerWindow = Library.ColorpickerWindow({ ZIndex = 5000 })
+        end
+        
+        -- Создаем экземпляр ColorpickerWindow
+        do
+            local ColorpickerWindowFunc = Library.ColorpickerWindow
+            Library.ColorpickerWindow = ColorpickerWindowFunc({ ZIndex = 5000 })
+        end
         
         function Library.Window(self, cfg)
             cfg = cfg or { }; cfg = Library.Config(cfg, {
@@ -4561,12 +4567,16 @@ local Env = getgenv()
 
                 ColorpickerWindow.Set(Colorpicker.Value, Colorpicker.Alpha)
                 
-                ColorpickerWindow.Open( Objects.Outline.AbsolutePosition + Vector2.new(0, Objects.Outline.AbsoluteSize.Y + 2) )
+                if ColorpickerWindow.Open then
+                    ColorpickerWindow.Open( Objects.Outline.AbsolutePosition + Vector2.new(0, Objects.Outline.AbsoluteSize.Y + 2) )
+                end
             end))
 
             Utility.Signal(UserInputService.InputBegan:Connect(function(input)
                 if input.UserInputType == Enum.UserInputType.MouseButton1 and ColorpickerWindow.Visible and ColorpickerWindow.Flag == cfg.flag and not (Utility.MouseOver(ColorpickerWindow.Objects.Outline, input) or Utility.MouseOver(Objects.Outline, input)) then
-                    ColorpickerWindow.Open( Objects.Outline.AbsolutePosition + Vector2.new(0, Objects.Outline.AbsoluteSize.Y + 2) )
+                    if ColorpickerWindow.Open then
+                        ColorpickerWindow.Open( Objects.Outline.AbsolutePosition + Vector2.new(0, Objects.Outline.AbsoluteSize.Y + 2) )
+                    end
                 end
             end))
             
@@ -5204,12 +5214,16 @@ local Env = getgenv()
 
             Utility.Signal(UserInputService.InputBegan:Connect(function(input)
                 if input.UserInputType == Enum.UserInputType.MouseButton1 and Keybind.Visible and not (Utility.MouseOver(Popup.Outline, input) or Utility.MouseOver(Objects.Icon, input) or Utility.MouseOver(Popup.Dropdown.Popup.Outline, input)) then
-                    Keybind.Open()
+                    if Keybind.Open then
+                        Keybind.Open()
+                    end
                 end
             end))
 
             Utility.Signal(Objects.Icon.MouseButton1Click:Connect(function()
-                Keybind.Open()
+                if Keybind.Open then
+                    Keybind.Open()
+                end
             end))
 
             Keybind.Set({ cfg.key, cfg.mode, cfg.value }, true)
