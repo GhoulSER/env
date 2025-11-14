@@ -2836,7 +2836,7 @@ local Env = getgenv()
                 -- Toggle icon for active state
                 Objects.Icon = Utility.New("ImageLabel", {
                     Name = "Icon",
-                    Size = UDim2.new(1.1, 0, 1.1, 0),
+                    Size = UDim2.new(0.9, 0, 0.9, 0),
                     Position = UDim2.new(0.5, 0, 0.5, 0),
                     AnchorPoint = Vector2.new(0.5, 0.5),
                     BackgroundTransparency = 1,
