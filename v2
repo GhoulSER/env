@@ -634,6 +634,14 @@ local Env = getgenv()
         
                 return text
             end
+            
+            function Utility.HSVtoRGB(h, s, v)
+                h = h % 1
+                local c, x, m = v * s, 0, v - v * s
+                local h6 = h * 6
+                if h6 < 1 then x = c elseif h6 < 2 then x = c * (2 - h6) elseif h6 < 3 then c, x = 0, c elseif h6 < 4 then x = c * (h6 - 3) elseif h6 < 5 then c, x = 0, c else x = c * (6 - h6) end
+                return Color3.new(math.clamp(c + m, 0, 1), math.clamp(x + m, 0, 1), math.clamp((h6 < 3 and 0 or (h6 < 4 and c or (h6 < 5 and c or 0))) + m, 0, 1))
+            end
         
         end
 
@@ -1429,7 +1437,7 @@ local Env = getgenv()
                     ZIndex = ZIndex,
                 }, { TextColor3 = "Text" })
 
-                Utility.New("UIGradient", {
+                Objects.TitleGradient = Utility.New("UIGradient", {
                     Name = "UIGradient",
                     Rotation = 180,
                     Color = ColorSequence.new({
@@ -1534,7 +1542,20 @@ local Env = getgenv()
                 ZIndex += 1
             end; Window.ZIndex = ZIndex
 
-            local AnimationSizeAmount = 20;
+            local AnimationSizeAmount = 20
+            local GradientHueOffset = 0
+            
+            Utility.Signal(RunService.RenderStepped:Connect(function()
+                if Window.Visible and Objects.TitleGradient then
+                    GradientHueOffset = (GradientHueOffset + 0.003) % 1
+                    local colors = {}
+                    for i = 0, 4 do
+                        local offset = i * 0.25
+                        table.insert(colors, ColorSequenceKeypoint.new(offset, Utility.HSVtoRGB((GradientHueOffset + offset * 0.3) % 1, 0.7 + offset * 0.3, 0.9 - offset * 0.1)))
+                    end
+                    Objects.TitleGradient.Color = ColorSequence.new(colors)
+                end
+            end))
 
             function Window.Open()
                 if Window.Tweening then
@@ -2843,7 +2864,16 @@ local Env = getgenv()
                     Name = "UICorner",
                     CornerRadius = UDim.new(0, 5),
                     Parent = Objects.Background
-                })  
+                })
+                
+                Objects.BackgroundGradient = Utility.New("UIGradient", {
+                    Name = "UIGradient",
+                    Rotation = 180,
+                    Color = ColorSequence.new(Color3.new(1, 1, 1)),
+                    Offset = Vector2.new(0, 1),
+                    Parent = Objects.Background,
+                    Transparency = NumberSequence.new(1)
+                })
 
                 ZIndex += 1
 
@@ -2945,6 +2975,8 @@ local Env = getgenv()
                 end))
             end
 
+            local ToggleGradientHue = 0
+            
             function Toggle.Set(value)
                 if Toggle.Tweening then
                     return
@@ -2971,6 +3003,23 @@ local Env = getgenv()
 
                 Library.Flags[cfg.flag] = value
             end
+            
+            Utility.Signal(RunService.RenderStepped:Connect(function()
+                if Toggle.Value and Objects.BackgroundGradient then
+                    ToggleGradientHue = (ToggleGradientHue + 0.003) % 1
+                    local colors = {}
+                    for i = 0, 4 do
+                        local offset = i * 0.25
+                        table.insert(colors, ColorSequenceKeypoint.new(offset, Utility.HSVtoRGB((ToggleGradientHue + offset * 0.3) % 1, 0.7 + offset * 0.3, 0.9 - offset * 0.1)))
+                    end
+                    Objects.BackgroundGradient.Color = ColorSequence.new(colors)
+                    Objects.BackgroundGradient.Transparency = NumberSequence.new(0.3)
+                else
+                    if Objects.BackgroundGradient then
+                        Objects.BackgroundGradient.Transparency = NumberSequence.new(1)
+                    end
+                end
+            end))
 
             function Toggle.Enable()
                 Toggle.Set(not Toggle.Value)
