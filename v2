@@ -2864,6 +2864,15 @@ local Env = getgenv()
                     Name = "UICorner",
                     CornerRadius = UDim.new(0, 5),
                     Parent = Objects.Background
+                })
+                
+                Objects.BackgroundGradient = Utility.New("UIGradient", {
+                    Name = "UIGradient",
+                    Rotation = 180,
+                    Color = ColorSequence.new(Color3.new(1, 1, 1)),
+                    Offset = Vector2.new(0, 1),
+                    Parent = Objects.Background,
+                    Transparency = NumberSequence.new(1)
                 })  
 
                 ZIndex += 1
@@ -2966,6 +2975,8 @@ local Env = getgenv()
                 end))
             end
 
+            local ToggleGradientHue = 0
+            
             function Toggle.Set(value)
                 if Toggle.Tweening then
                     return
@@ -2983,7 +2994,6 @@ local Env = getgenv()
                     TextColor3 = value and "Text" or "Dark Text"
                 }, true)
 
-                -- Show/hide toggle icon based on state
                 if Objects.Icon then
                     Objects.Icon.Visible = value
                 end
@@ -2992,6 +3002,23 @@ local Env = getgenv()
 
                 Library.Flags[cfg.flag] = value
             end
+            
+            Utility.Signal(RunService.RenderStepped:Connect(function()
+                if Toggle.Value and Objects.BackgroundGradient then
+                    ToggleGradientHue = (ToggleGradientHue + 0.003) % 1
+                    local colors = {}
+                    for i = 0, 4 do
+                        local offset = i * 0.25
+                        table.insert(colors, ColorSequenceKeypoint.new(offset, HSVtoRGB((ToggleGradientHue + offset * 0.3) % 1, 0.7 + offset * 0.3, 0.9 - offset * 0.1)))
+                    end
+                    Objects.BackgroundGradient.Color = ColorSequence.new(colors)
+                    Objects.BackgroundGradient.Transparency = NumberSequence.new(0.3)
+                else
+                    if Objects.BackgroundGradient then
+                        Objects.BackgroundGradient.Transparency = NumberSequence.new(1)
+                    end
+                end
+            end))
 
             function Toggle.Enable()
                 Toggle.Set(not Toggle.Value)
