@@ -1,8 +1,8 @@
 local Env = getgenv()
 
 -- unloading
-    if Env.Lumora then
-        Env.Lumora.Utility.unload()
+    if Env.Symbol then
+        Env.Symbol.Utility.unload()
     end
 --
 
@@ -40,7 +40,7 @@ local Env = getgenv()
 
     local Acceleration = Vector3.new(0, -Workspace.Gravity, 0)
 
-    Env.Lumora = { }
+    Env.Symbol = { }
 --
 
 -- bin
@@ -85,9 +85,9 @@ local Env = getgenv()
                 if not (self and self.storage) then return end
     
                 for _, entry in ipairs(self.storage) do 
-                    if not (entry and entry.destroy) then continue end
-    
-                    entry.destroy()
+                    if entry and entry.destroy then
+                        entry.destroy()
+                    end
                 end
     
                 self.storage = nil
@@ -95,7 +95,7 @@ local Env = getgenv()
     
             return bin    
         end
-    end; Env.Lumora.BinLib = BinLib; Bin = BinLib.bin(); Env.Lumora.Bin = Bin
+    end; Env.Symbol.BinLib = BinLib; Bin = BinLib.bin(); Env.Symbol.Bin = Bin
 --
 
 -- util
@@ -103,7 +103,7 @@ local Env = getgenv()
         function Utility.unload()
             Bin:destroy()
 
-            Env.Lumora = nil
+            Env.Symbol = nil
         end
 
         function Utility.Connect(connection)
@@ -195,7 +195,7 @@ local Env = getgenv()
 
         -- Multi definitions
         Utility.Signal = Utility.Connect
-    end; Env.Lumora.Utility = Utility;
+    end; Env.Symbol.Utility = Utility;
 --
 
 -- supported games
@@ -368,7 +368,7 @@ local Env = getgenv()
         for _,font in Fonts.Names do
             Fonts.Load(font)
         end
-    end; Env.Lumora.Fonts = Fonts
+    end; Env.Symbol.Fonts = Fonts
 --
 
 -- images
@@ -406,7 +406,7 @@ local Env = getgenv()
         for _,image in Images.Names do
             Images.Load(image)
         end
-    end; Env.Lumora.Images = Images
+    end; Env.Symbol.Images = Images
 --
 
 -- library
@@ -847,7 +847,7 @@ local Env = getgenv()
                     CornerRadius = UDim.new(0, 5),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Background = Utility.New("TextButton", {
                     Name = "Background",
@@ -876,7 +876,7 @@ local Env = getgenv()
                     PaddingBottom = UDim.new(0, 5),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
                 
                 -- Saturation
                 Objects.SaturationOutline = Utility.New("TextButton", {
@@ -896,7 +896,7 @@ local Env = getgenv()
                     CornerRadius = UDim.new(0, 5),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.SaturationBackground = Utility.New("ImageLabel", {
                     Name = "SaturationBackground",
@@ -914,7 +914,7 @@ local Env = getgenv()
                     CornerRadius = UDim.new(0, 5),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.SaturationImage = Utility.New("ImageLabel", {
                     Name = "SaturationImage",
@@ -933,7 +933,7 @@ local Env = getgenv()
                     CornerRadius = UDim.new(0, 5),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.SaturationPickerOutline = Utility.New("TextButton", {
                     Name = "SaturationPickerOutline",
@@ -953,7 +953,7 @@ local Env = getgenv()
                     CornerRadius = UDim.new(1, 0),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.SaturationPicker = Utility.New("Frame", {
                     Name = "SaturationPicker",
@@ -991,7 +991,7 @@ local Env = getgenv()
                     CornerRadius = UDim.new(0, 5),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.HueBackground = Utility.New("Frame", {
                     Name = "HueBackground",
@@ -1015,7 +1015,7 @@ local Env = getgenv()
                     Parent = Objects.HueBackground,
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.HuePickerOutline = Utility.New("TextButton", {
                     Name = "HuePickerOutline",
@@ -1035,7 +1035,7 @@ local Env = getgenv()
                     CornerRadius = UDim.new(1, 0),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.HuePicker = Utility.New("Frame", {
                     Name = "SaturationPicker",
@@ -1072,7 +1072,7 @@ local Env = getgenv()
                     CornerRadius = UDim.new(0, 5),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.AlphaImage = Utility.New("ImageLabel", {
                     Name = "AlphaImage",
@@ -1093,7 +1093,7 @@ local Env = getgenv()
                     CornerRadius = UDim.new(0, 5),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.AlphaBackground = Utility.New("Frame", {
                     Name = "SaturationPicker",
@@ -1118,7 +1118,7 @@ local Env = getgenv()
                     })
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.AlphaPickerOutline = Utility.New("TextButton", {
                     Name = "AlphaPickerOutline",
@@ -1138,7 +1138,7 @@ local Env = getgenv()
                     CornerRadius = UDim.new(1, 0),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.AlphaPicker = Utility.New("Frame", {
                     Name = "AlphaPicker",
@@ -1222,14 +1222,15 @@ local Env = getgenv()
 
                 for _, obj in ParentObjects do
                     local Index = Utility.GetTransparency(obj)
-                    if not Index then continue end
 
-                    if type(Index) == "table" then
-                        for _, prop in Index do
-                            Library.Fade(obj, prop, Popup.Visible)
+                    if Index then
+                        if type(Index) == "table" then
+                            for _, prop in Index do
+                                Library.Fade(obj, prop, Popup.Visible)
+                            end
+                        else
+                            Library.Fade(obj, Index, Popup.Visible)
                         end
-                    else
-                        Library.Fade(obj, Index, Popup.Visible)
                     end
                 end
 
@@ -1367,7 +1368,7 @@ local Env = getgenv()
                     CornerRadius = UDim.new(0, 5),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.SideInline = Utility.New("Frame", {
                     Name = "SideInline",
@@ -1384,7 +1385,7 @@ local Env = getgenv()
                     CornerRadius = UDim.new(0, 5),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.SideBackground = Utility.New("Frame", {
                     Name = "SideBackground",
@@ -1413,7 +1414,7 @@ local Env = getgenv()
                     Parent = Objects.SideBackground
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Title = Utility.New("TextLabel", {
                     Name = "Title",
@@ -1517,7 +1518,7 @@ local Env = getgenv()
 
                 Window.PageHolder = Objects.PageHolder
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
             end; Window.ZIndex = ZIndex
 
             local AnimationSizeAmount = 20;
@@ -1557,14 +1558,14 @@ local Env = getgenv()
                 for _,obj in Objects.ScreenGui:GetDescendants() do
                     local Index = Utility.GetTransparency(obj)
 
-                    if not Index then continue end
-
-                    if type(Index) == "table" then
-                        for _,prop in Index do
-                            Library.Fade(obj, prop, Window.Visible)
+                    if Index then
+                        if type(Index) == "table" then
+                            for _,prop in Index do
+                                Library.Fade(obj, prop, Window.Visible)
+                            end
+                        else
+                            Library.Fade(obj, Index, Window.Visible)
                         end
-                    else
-                        Library.Fade(obj, Index, Window.Visible)
                     end
                 end
 
@@ -1591,6 +1592,7 @@ local Env = getgenv()
 
             local Info = {
                 Objects = { },
+
                 ZIndex = self.ZIndex
             }
 
@@ -1614,7 +1616,7 @@ local Env = getgenv()
                     Parent = Objects.Holder
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Text = Utility.New("TextLabel", {
                     Name = "Text",
@@ -1631,7 +1633,7 @@ local Env = getgenv()
                     ZIndex = ZIndex,
                 }, { TextColor3 = "Dark Text" })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
             end; Info.ZIndex = ZIndex
 
             return setmetatable(Info, Library)
@@ -1666,7 +1668,7 @@ local Env = getgenv()
                     ZIndex = ZIndex,
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Background = Utility.New("TextButton", {
                     Name = "Background",
@@ -1683,7 +1685,7 @@ local Env = getgenv()
                     ClipsDescendants = true,
                 }, { BackgroundColor3 = "Background" })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Utility.New("UICorner", {
                     Name = "UICorner",
@@ -1752,7 +1754,7 @@ local Env = getgenv()
                     ZIndex = ZIndex,
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Left = Utility.New("Frame", {
                     Name = "Left",
@@ -1823,26 +1825,22 @@ local Env = getgenv()
                         self.TabsTweening = true
 
                         for _,tab in self.Tabs do
-                            if tab.Name == Tab.Name then continue end
-
-                            tab.Set(false, true)
+                            if tab.Name ~= Tab.Name then
+                                tab.Set(false, true)
+                            end
                         end
-
-                        -- if self.TabsTweening then
-                        --     return
-                        -- end
 
                         for _,obj in Objects.Page:GetDescendants() do
                             local Index = Utility.GetTransparency(obj)
 
-                            if not Index then continue end
-
-                            if type(Index) == "table" then
-                                for _,prop in Index do
-                                    Library.Fade(obj, prop, status)
+                            if Index then
+                                if type(Index) == "table" then
+                                    for _,prop in Index do
+                                        Library.Fade(obj, prop, status)
+                                    end
+                                else
+                                    Library.Fade(obj, Index, status)
                                 end
-                            else
-                                Library.Fade(obj, Index, status)
                             end
                         end
 
@@ -1913,7 +1911,7 @@ local Env = getgenv()
                     MinSize = Vector2.new( 0, 40 ),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Dragging = Utility.New("TextButton", {
                     Name = "Dragging",
@@ -1928,7 +1926,7 @@ local Env = getgenv()
                     ZIndex = ZIndex,
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.TopInline = Utility.New("Frame", {
                     Name = "TopInline",
@@ -1946,7 +1944,7 @@ local Env = getgenv()
                     CornerRadius = UDim.new(0, 5),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.TopBackground = Utility.New("Frame", {
                     Name = "TopBackground",
@@ -1974,13 +1972,13 @@ local Env = getgenv()
 
                 Utility.New("UIListLayout", {
                     Name = "UIListLayout",
+                    Parent = Objects.TopBackground,
                     FillDirection = Enum.FillDirection.Vertical,
                     SortOrder = Enum.SortOrder.LayoutOrder,
-                    Parent = Objects.TopBackground,
                     Padding = UDim.new(0, 2),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Title = Utility.New("TextLabel", {
                     Name = "Title",
@@ -1997,7 +1995,7 @@ local Env = getgenv()
                     ZIndex = ZIndex,
                 }, { TextColor3 = "Text" })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 if cfg.description then
                     Objects.Description = Utility.New("TextLabel", {
@@ -2015,7 +2013,7 @@ local Env = getgenv()
                         TextWrapped = true,
                     }, { TextColor3 = "Light Text" })
 
-                    ZIndex += 1
+                    ZIndex = ZIndex + 1
                 end
 
                 Objects.TopCoverInline = Utility.New("Frame", {
@@ -2027,7 +2025,7 @@ local Env = getgenv()
                     ZIndex = ZIndex,
                 }, { BackgroundColor3 = "Inline" })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.TopCoverBackground = Utility.New("Frame", {
                     Name = "TopCoverBackground",
@@ -2038,7 +2036,7 @@ local Env = getgenv()
                     ZIndex = ZIndex,
                 }, { BackgroundColor3 = "Background" })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Padded = Utility.New("Frame", {
                     Name = "Padded",
@@ -2050,7 +2048,7 @@ local Env = getgenv()
                     ZIndex = ZIndex,
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Scrolling = Utility.New("ScrollingFrame", {
                     Name = "Scrolling",
@@ -2068,7 +2066,7 @@ local Env = getgenv()
                     ScrollBarThickness = 2,
                 }, { ScrollBarImageColor3 = "Accent" })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Content = Utility.New("Frame", {
                     Name = "Content",
@@ -2091,7 +2089,7 @@ local Env = getgenv()
                     Padding = UDim.new(0, 5),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Utility.Signal(Objects.Scrolling:GetPropertyChangedSignal("AbsoluteCanvasSize"):Connect(function()
                     if Objects.Scrolling.AbsoluteCanvasSize.Y > Objects.Scrolling.AbsoluteSize.Y then
@@ -2273,10 +2271,10 @@ local Env = getgenv()
 
                 ZIndex = self.ZIndex,
                 
-                -- Добавим новое свойство для отслеживания родительского PopupMenu
+                
                 ParentPopup = nil,
                 
-                -- Добавим свойство для хранения вложенных PopupMenu
+                
                 ChildPopups = {},
             }
 
@@ -2300,7 +2298,7 @@ local Env = getgenv()
                     CornerRadius = UDim.new(0, 5),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Background = Utility.New("TextButton", {
                     Name = "Background",
@@ -2330,7 +2328,7 @@ local Env = getgenv()
                     PaddingBottom = UDim.new(0, 5),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Holder = Utility.New("Frame", {
                     Name = "Holder",
@@ -2364,30 +2362,29 @@ local Env = getgenv()
             Objects.Outline.Visible = true
             
             if not stopPropagation then
-                -- Получаем цепочку родительских поп-апов для текущего поп-апа
+
                 local parentChain = Popup:GetParentChain()
                 local parentChainMap = {}
                 for _, parent in ipairs(parentChain) do
                     parentChainMap[parent] = true
                 end
                 
-                -- Закрываем только popups одного родителя и того же уровня вложенности
-                -- Не трогаем popups из родительской цепочки и других ветвей иерархии
+
                 if Popup.ParentPopup and Popup.ParentElement then
                     for _, childPopup in pairs(Popup.ParentPopup.ChildPopups) do
                         -- Не закрываем себя и поп-апы в родительской цепочке
                         if childPopup ~= Popup and not parentChainMap[childPopup] and 
                            childPopup.Objects.Outline.Visible and childPopup.ParentElement == Popup.ParentElement then
-                            childPopup.Visible(false, nil, true) -- stopPropagation=true, чтобы не затрагивать дочерние
+                            childPopup.Visible(false, nil, true) 
                         end
                     end
                 elseif not Popup.ParentPopup then
-                    -- Если это корневой popup, закрываем только те корневые popups, которые относятся к тому же элементу
+
                     for _, popup in pairs(Library.Popups) do
                         if popup ~= Popup and not parentChainMap[popup] and 
                            popup.Objects.Outline.Visible and not popup.ParentPopup and 
                            popup.ParentElement == Popup.ParentElement then
-                            popup.Visible(false, nil, true) -- stopPropagation=true, чтобы не затрагивать дочерние
+                            popup.Visible(false, nil, true) 
                         end
                     end
                 end
@@ -2401,7 +2398,7 @@ local Env = getgenv()
                 for _,obj in ParentObjects do
                     local Index = Utility.GetTransparency(obj)
 
-                    if not Index then continue end
+                    if not Index then  end
 
                     if type(Index) == "table" then
                         for _,prop in Index do
@@ -2435,8 +2432,7 @@ local Env = getgenv()
 
                     Objects.Outline.Visible = visibility
                     
-                    -- Если popup закрывается, закрываем все его дочерние popups,
-                    -- но только если это не операция переключения в иерархии
+
                     if not visibility and not stopPropagation then
                         for _, childPopup in pairs(Popup.ChildPopups) do
                             if childPopup.Objects.Outline.Visible then
@@ -2447,7 +2443,7 @@ local Env = getgenv()
                 end))
             end
             
-            -- Добавляем новый метод для создания вложенного PopupMenu
+
             function Popup:NestedPopup(cfg)
                 local NestedPopup = Library.PopupMenu(self, cfg)
                 NestedPopup.ParentPopup = self
@@ -2455,7 +2451,7 @@ local Env = getgenv()
                 return NestedPopup
             end
             
-            -- Рекурсивная функция для получения цепочки родительских поп-апов
+
             function Popup:GetParentChain()
                 local chain = {}
                 
@@ -2509,26 +2505,26 @@ local Env = getgenv()
                 (Library.ColorpickerWindow and type(Library.ColorpickerWindow) == "table" and Library.ColorpickerWindow.Objects and Library.ColorpickerWindow.Objects.Outline) or nil,
             }
             
-            -- Добавляем родительский объект для отслеживания связи
+
             Popup.ParentElement = self
 
             function Cog.InsideBounds(input)
-                -- Проверяем основные объекты
+
                 for _,obj in Popup.BoundObjects do
                     if obj and Utility.MouseOver(obj, input) then
                         return true
                     end
                 end
                 
-                -- Также проверяем все вложенные попапы
+
                 for _, childPopup in pairs(Popup.ChildPopups) do
                     if childPopup.Objects.Outline.Visible then
-                        -- Проверяем сам popup
+
                         if Utility.MouseOver(childPopup.Objects.Outline, input) then
                             return true
                         end
                         
-                        -- Рекурсивно проверяем дочерние popups
+
                         for _, nestedObj in pairs(childPopup.BoundObjects or {}) do
                             if nestedObj and Utility.MouseOver(nestedObj, input) then
                                 return true
@@ -2540,17 +2536,16 @@ local Env = getgenv()
                 return false
             end
 
-            -- Глобальный обработчик кликов для поп-апов
-            -- Перемещаем его из индивидуальных поп-апов в единый обработчик
+
             if not Library.GlobalPopupClickHandler then
                 Library.GlobalPopupClickHandler = true
                 
                 Utility.Signal(UserInputService.InputBegan:Connect(function(input)
                     if input.UserInputType ~= Enum.UserInputType.MouseButton1 then
-                        return -- Обрабатываем только левые клики
+                        return 
                     end
                     
-                    -- Функция для проверки, относится ли элемент к GUI библиотеки
+
                     local function isLibraryUI(obj)
                         while obj do
                             if obj == Library.ScreenGui then
@@ -2561,12 +2556,12 @@ local Env = getgenv()
                         return false
                     end
                     
-                    -- Проверяем, попал ли клик в какой-то UI элемент библиотеки
+
                     local ignoreCloseCheck = false
                     local guiObjectsAtPosition = game:GetService("CoreGui"):GetGuiObjectsAtPosition(input.Position.X, input.Position.Y)
                     for _, obj in ipairs(guiObjectsAtPosition) do
                         if isLibraryUI(obj) then
-                            -- Если кликнули по иконке или элементу поп-апа, не закрываем поп-апы
+
                             if obj:IsA("ImageButton") or obj:IsA("TextButton") then
                                 ignoreCloseCheck = true
                                 break
@@ -2575,19 +2570,19 @@ local Env = getgenv()
                     end
                     
                     if ignoreCloseCheck then
-                        return -- Кликнули по кнопке или иконке, игнорируем проверку закрытия
+                        return 
                     end
                     
-                    -- Проверяем все открытые поп-апы
+
                     for _, popup in pairs(Library.Popups) do
                         if popup.Objects.Outline.Visible then
-                            -- Рекурсивная функция для проверки, находится ли курсор внутри поп-апа или его дочерних элементов
+
                             local function isInsidePopupHierarchy(p, input)
                                 if Utility.MouseOver(p.Objects.Outline, input) then
                                     return true
                                 end
                                 
-                                -- Проверяем дочерние поп-апы
+
                                 for _, child in pairs(p.ChildPopups) do
                                     if child.Objects.Outline.Visible and isInsidePopupHierarchy(child, input) then
                                         return true
@@ -2597,9 +2592,9 @@ local Env = getgenv()
                                 return false
                             end
                             
-                            -- Если курсор не внутри поп-апа или его дочерних элементов, закрываем его
+
                             if not isInsidePopupHierarchy(popup, input) then
-                                -- Проверяем, не относится ли этот поп-ап к какому-то родителю, в котором находится курсор
+                               
                                 local isChildOfActiveParent = false
                                 local function isInParentOfPopup(p, input)
                                     if p.ParentPopup and p.ParentPopup.Objects.Outline.Visible then
@@ -2611,11 +2606,11 @@ local Env = getgenv()
                                     return false
                                 end
                                 
-                                -- Если поп-ап не находится в родительской цепочке с курсором, закрываем его
+
                                 if not isInParentOfPopup(popup, input) and popup.ParentElement then
                                     popup.Visible(false, nil, true)
                                     
-                                    -- Меняем цвет иконки
+
                                     if popup.ParentElement.Objects and popup.ParentElement.Objects.Icon then
                                         Library.ChangeObjectTheme(popup.ParentElement.Objects.Icon, {
                                             ImageColor3 = "Dark Text",
@@ -2648,7 +2643,7 @@ local Env = getgenv()
                     ImageColor3 = Cog.Visible and "Text" or "Dark Text",
                 }, true)
 
-                -- Важно: не закрываем родительские поп-апы при переключении
+
                 local stopPropagation = true
                 Popup.Visible(Cog.Visible, Position, stopPropagation)
             end))
@@ -2703,7 +2698,7 @@ local Env = getgenv()
                     Padding = UDim.new(0, 5),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Line = Utility.New("TextButton", {
                     Name = "Line",
@@ -2726,7 +2721,7 @@ local Env = getgenv()
                     Padding = UDim.new(0, 2),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Text = Utility.New("TextLabel", {
                     Name = "Text",
@@ -2751,7 +2746,7 @@ local Env = getgenv()
                     Padding = UDim.new(0, 2),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.SideHolder = Utility.New("Frame", {
                     Name = "SideHolder",
@@ -2775,7 +2770,7 @@ local Env = getgenv()
 
                 Toggle.SideHolder = Objects.SideHolder
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 if cfg.description then
                     Objects.Description = Utility.New("TextLabel", {
@@ -2793,7 +2788,7 @@ local Env = getgenv()
                         TextWrapped = true,
                     }, { TextColor3 = "Light Text" })
 
-                    ZIndex += 1
+                    ZIndex = ZIndex + 1
                 end
 
                 Objects.Outline = Utility.New("Frame", {
@@ -2814,7 +2809,7 @@ local Env = getgenv()
                     Parent = Objects.Outline
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Background = Utility.New("Frame", {
                     Name = "Background",
@@ -2831,7 +2826,7 @@ local Env = getgenv()
                     Parent = Objects.Background
                 })  
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 -- Toggle icon for active state
                 Objects.Icon = Utility.New("ImageLabel", {
@@ -2847,7 +2842,7 @@ local Env = getgenv()
                     Visible = false,
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 if cfg.children ~= nil then
                     Objects.ChildrenHolder = Utility.New("Frame", {
@@ -2873,7 +2868,7 @@ local Env = getgenv()
 
                     Toggle.Holder = Objects.ChildrenHolder
 
-                    ZIndex += 1
+                    ZIndex = ZIndex + 1
                 end
             end; Toggle.ZIndex = ZIndex
 
@@ -2899,7 +2894,7 @@ local Env = getgenv()
                 for _,obj in Objects.ChildrenHolder:GetDescendants() do
                     local Index = Utility.GetTransparency(obj)
 
-                    if not Index then continue end
+                    if not Index then  end
 
                     if type(Index) == "table" then
                         for _,prop in Index do
@@ -3030,7 +3025,7 @@ local Env = getgenv()
                     Padding = UDim.new(0, 5),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Line = Utility.New("TextButton", {
                     Name = "Line",
@@ -3053,7 +3048,7 @@ local Env = getgenv()
                     Padding = UDim.new(0, 2),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Text = Utility.New("TextLabel", {
                     Name = "Text",
@@ -3078,7 +3073,7 @@ local Env = getgenv()
                     Padding = UDim.new(0, 2),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.SideHolder = Utility.New("Frame", {
                     Name = "SideHolder",
@@ -3102,7 +3097,7 @@ local Env = getgenv()
 
                 Slider.SideHolder = Objects.SideHolder
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Value = Utility.New("TextLabel", {
                     Name = "Value",
@@ -3118,7 +3113,7 @@ local Env = getgenv()
                     ZIndex = ZIndex,
                 }, { TextColor3 = "Dark Text" })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 if cfg.description then
                     Objects.Description = Utility.New("TextLabel", {
@@ -3136,7 +3131,7 @@ local Env = getgenv()
                         TextWrapped = true,
                     }, { TextColor3 = "Light Text" })
 
-                    ZIndex += 1
+                    ZIndex = ZIndex + 1
                 end
 
                 Objects.Outline = Utility.New("TextButton", {
@@ -3157,7 +3152,7 @@ local Env = getgenv()
                     Parent = Objects.Outline,
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Background = Utility.New("Frame", {
                     Name = "Background",
@@ -3174,7 +3169,7 @@ local Env = getgenv()
                     Parent = Objects.Background,
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Accent = Utility.New("Frame", {
                     Name = "Accent",
@@ -3205,7 +3200,7 @@ local Env = getgenv()
                     Parent = Objects.CircleOutline,
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Circle = Utility.New("Frame", {
                     Name = "Circle",
@@ -3317,7 +3312,7 @@ local Env = getgenv()
                     Parent = Objects.Outline,
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Background = Utility.New("Frame", {
                     Name = "Background",
@@ -3343,7 +3338,7 @@ local Env = getgenv()
                     Parent = Objects.Background,
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Text = Utility.New("TextLabel", {
                     Name = "Text",
@@ -3372,7 +3367,7 @@ local Env = getgenv()
                     for i = 1, 5 do
                         task.wait(1)
 
-                        Button.Time -= 1
+                        Button.Time = Button.Time - 1
 
                         if Button.Time > 0 then
                             Objects.Text.Text = string.format("Confirm %s? (%s)", cfg.name, Button.Time)
@@ -3484,7 +3479,7 @@ local Env = getgenv()
                     Padding = UDim.new(0, 5),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Line = Utility.New("TextButton", {
                     Name = "Line",
@@ -3507,7 +3502,7 @@ local Env = getgenv()
                     Padding = UDim.new(0, 2),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Text = Utility.New("TextLabel", {
                     Name = "Text",
@@ -3532,7 +3527,7 @@ local Env = getgenv()
                     Padding = UDim.new(0, 2),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.SideHolder = Utility.New("Frame", {
                     Name = "SideHolder",
@@ -3556,7 +3551,7 @@ local Env = getgenv()
 
                 List.SideHolder = Objects.SideHolder
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 if cfg.description then
                     Objects.Description = Utility.New("TextLabel", {
@@ -3574,7 +3569,7 @@ local Env = getgenv()
                         TextWrapped = true,
                     }, { TextColor3 = "Light Text" })
 
-                    ZIndex += 1
+                    ZIndex = ZIndex + 1
                 end
 
                 Objects.Outline = Utility.New("TextButton", {
@@ -3595,7 +3590,7 @@ local Env = getgenv()
                     Parent = Objects.Outline,
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Background = Utility.New("Frame", {
                     Name = "Background",
@@ -3622,7 +3617,7 @@ local Env = getgenv()
                     Parent = Objects.Background
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Scrolling = Utility.New("ScrollingFrame", {
                     Name = "Scrolling",
@@ -3640,7 +3635,7 @@ local Env = getgenv()
                     ScrollBarThickness = 2,
                 }, { ScrollBarImageColor3 = "Accent" })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Content = Utility.New("Frame", {
                     Name = "Content",
@@ -3662,7 +3657,7 @@ local Env = getgenv()
                     Padding = UDim.new(0, 5),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
             end; List.ZIndex = ZIndex
 
@@ -3852,7 +3847,7 @@ local Env = getgenv()
                     Padding = UDim.new(0, 5),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Line = Utility.New("TextButton", {
                     Name = "Line",
@@ -3875,7 +3870,7 @@ local Env = getgenv()
                     Padding = UDim.new(0, 2),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Text = Utility.New("TextLabel", {
                     Name = "Text",
@@ -3900,7 +3895,7 @@ local Env = getgenv()
                     Padding = UDim.new(0, 2),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.SideHolder = Utility.New("Frame", {
                     Name = "SideHolder",
@@ -3924,7 +3919,7 @@ local Env = getgenv()
 
                 Dropdown.SideHolder = Objects.SideHolder
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 if cfg.description then
                     Objects.Description = Utility.New("TextLabel", {
@@ -3942,7 +3937,7 @@ local Env = getgenv()
                         TextWrapped = true,
                     }, { TextColor3 = "Light Text" })
 
-                    ZIndex += 1
+                    ZIndex = ZIndex + 1
                 end
 
                 Objects.Outline = Utility.New("TextButton", {
@@ -3963,7 +3958,7 @@ local Env = getgenv()
                     Parent = Objects.Outline,
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Background = Utility.New("Frame", {
                     Name = "Background",
@@ -3990,7 +3985,7 @@ local Env = getgenv()
                     Parent = Objects.Background
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Value = Utility.New("TextLabel", {
                     Name = "Text",
@@ -4005,7 +4000,7 @@ local Env = getgenv()
                     ZIndex = ZIndex,
                 }, { TextColor3 = "Text" })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
             end; Dropdown.ZIndex = ZIndex
 
             local Popup = Dropdown.Popup; do
@@ -4029,7 +4024,7 @@ local Env = getgenv()
                     CornerRadius = UDim.new(0, 5),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Popup.Background = Utility.New("TextButton", {
                     Name = "Background",
@@ -4058,7 +4053,7 @@ local Env = getgenv()
                     PaddingBottom = UDim.new(0, 5),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Popup.Scroll = Utility.New("ScrollingFrame", {
                     Name = "Scroll",
@@ -4157,10 +4152,10 @@ local Env = getgenv()
                 local Count = 0
 
                 for _,v in Popup.Holder:GetChildren() do
-                    Count += 1
+                    Count = Count + 1
 
                     if v:IsA("TextButton") then
-                        Size += v.AbsoluteSize.y + 5
+                        Size = Size + v.AbsoluteSize.y + 5
                     end
 
                     if Count > 4 then
@@ -4168,7 +4163,7 @@ local Env = getgenv()
                     end
                 end
 
-                Size += 10
+                Size = Size + 10
 
                 return Size
             end
@@ -4192,7 +4187,7 @@ local Env = getgenv()
 
                 for _, obj in ParentObjects do
                     local Index = Utility.GetTransparency(obj)
-                    if not Index then continue end
+                    if not Index then  end
 
                     if type(Index) == "table" then
                         for _, prop in Index do
@@ -4427,7 +4422,7 @@ local Env = getgenv()
                         Padding = UDim.new(0, 5),
                     })
         
-                    ZIndex += 1
+                    ZIndex = ZIndex + 1
         
                     Objects.Line = Utility.New("TextButton", {
                         Name = "Line",
@@ -4450,7 +4445,7 @@ local Env = getgenv()
                         Padding = UDim.new(0, 2),
                     })
                     
-                    ZIndex += 1
+                    ZIndex = ZIndex + 1
 
                     Objects.Text = Utility.New("TextLabel", {
                         Name = "Text",
@@ -4475,7 +4470,7 @@ local Env = getgenv()
                         Padding = UDim.new(0, 2),
                     })
         
-                    ZIndex += 1
+                    ZIndex = ZIndex + 1
         
                     Objects.SideHolder = Utility.New("Frame", {
                         Name = "SideHolder",
@@ -4499,7 +4494,7 @@ local Env = getgenv()
         
                     Colorpicker.SideHolder = Objects.SideHolder
         
-                    ZIndex += 1
+                    ZIndex = ZIndex + 1
                 end
 
                 local Parent = self.SideHolder or Objects.Text
@@ -4525,7 +4520,7 @@ local Env = getgenv()
                     Parent = Objects.Outline
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Background = Utility.New("Frame", {
                     Name = "Background",
@@ -4543,7 +4538,7 @@ local Env = getgenv()
                     Parent = Objects.Background
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
                 
             end; Colorpicker.ZIndex = ZIndex
 
@@ -4657,7 +4652,7 @@ local Env = getgenv()
                     Parent = Objects.Outline,
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Background = Utility.New("Frame", {
                     Name = "Background",
@@ -4683,7 +4678,7 @@ local Env = getgenv()
                     Parent = Objects.Background,
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.TextBox = Utility.New("TextBox", {
                     Name = "TextBox",
@@ -4782,7 +4777,7 @@ local Env = getgenv()
                         Padding = UDim.new(0, 5),
                     })
         
-                    ZIndex += 1
+                    ZIndex = ZIndex + 1
         
                     Objects.Line = Utility.New("TextButton", {
                         Name = "Line",
@@ -4805,7 +4800,7 @@ local Env = getgenv()
                         Padding = UDim.new(0, 2),
                     })
                     
-                    ZIndex += 1
+                    ZIndex = ZIndex + 1
 
                     Objects.Text = Utility.New("TextLabel", {
                         Name = "Text",
@@ -4830,7 +4825,7 @@ local Env = getgenv()
                         Padding = UDim.new(0, 2),
                     })
         
-                    ZIndex += 1
+                    ZIndex = ZIndex + 1
         
                     Objects.SideHolder = Utility.New("Frame", {
                         Name = "SideHolder",
@@ -4854,7 +4849,7 @@ local Env = getgenv()
         
                     Keybind.SideHolder = Objects.SideHolder
         
-                    ZIndex += 1
+                    ZIndex = ZIndex + 1
                 end
 
                 local Parent = self.SideHolder or Objects.Text
@@ -4891,7 +4886,7 @@ local Env = getgenv()
                     CornerRadius = UDim.new(0, 5),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Popup.Background = Utility.New("TextButton", {
                     Name = "Background",
@@ -4920,7 +4915,7 @@ local Env = getgenv()
                     PaddingBottom = UDim.new(0, 5),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Popup.Holder = Utility.New("Frame", {
                     Name = "Holder",
@@ -4961,7 +4956,7 @@ local Env = getgenv()
                     Padding = UDim.new(0, 2),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Popup.Text = Utility.New("TextLabel", {
                     Name = "Text",
@@ -4986,7 +4981,7 @@ local Env = getgenv()
                     Padding = UDim.new(0, 2),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Popup.KeyOutline = Utility.New("TextButton", {
                     Name = "Outline",
@@ -5009,7 +5004,7 @@ local Env = getgenv()
                     Parent = Popup.KeyOutline
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Popup.KeyBackground = Utility.New("Frame", {
                     Name = "Background",
@@ -5026,7 +5021,7 @@ local Env = getgenv()
                     Parent = Popup.KeyBackground
                 })  
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Popup.Key = Utility.New("TextLabel", {
                     Name = "Text",
@@ -5124,14 +5119,14 @@ local Env = getgenv()
 
                 for _, obj in ParentObjects do
                     local Index = Utility.GetTransparency(obj)
-                    if not Index then continue end
-
-                    if type(Index) == "table" then
-                        for _, prop in Index do
-                            Library.Fade(obj, prop, Keybind.Visible)
+                    if Index then
+                        if type(Index) == "table" then
+                            for _, prop in Index do
+                                Library.Fade(obj, prop, Keybind.Visible)
+                            end
+                        else
+                            Library.Fade(obj, Index, Keybind.Visible)
                         end
-                    else
-                        Library.Fade(obj, Index, Keybind.Visible)
                     end
                 end
 
@@ -5206,7 +5201,7 @@ local Env = getgenv()
             end))
 
             Utility.Signal(UserInputService.InputBegan:Connect(function(input) 
-                -- Не обрабатываем нажатия, если кейбинд установлен на Unknown
+
                 if Keybind.Key ~= Enum.KeyCode.Unknown and (input.KeyCode == Keybind.Key or input.UserInputType == Keybind.Key) then 
                     local Value = Keybind.Mode ~= "Toggle" or not Keybind.Value
                     Keybind.Set( Value )
@@ -5217,7 +5212,7 @@ local Env = getgenv()
                         end
 
                         Keybind.OnHold = Utility.Signal(UserInputService.InputEnded:Connect(function(input) 
-                            -- Проверяем, что кейбинд не Unknown и что это правильная клавиша
+
                             if Keybind.Key ~= Enum.KeyCode.Unknown and (input.KeyCode == Keybind.Key or input.UserInputType == Keybind.Key) then 
                                 Keybind.Set( false )
 
@@ -5255,368 +5250,6 @@ local Env = getgenv()
             return setmetatable(Keybind, Library)
         end
 
-        function Library.List(self, cfg)
-            cfg = cfg or { }; cfg = Library.Config(cfg, {
-                name = "New List",
-                description = nil,
-                value = "value1",
-                values = { "value1", "value2", "value3", "value4", "value5", "value6" },
-                multi = false,
-                size = 100,
-                callback = function() end,
-                flag = nil,
-            })
-
-            if not cfg.flag then
-                cfg.flag = cfg.name
-            end
-
-            local List = {
-                ZIndex = self.ZIndex,
-
-                Objects = { },
-
-                Popup = { },
-
-                Items = { },
-
-                Value = nil,
-            }
-
-            local ZIndex = List.ZIndex
-
-            local Objects = List.Objects; do
-                Objects.Holder = Utility.New("Frame", {
-                    Name = "Holder",
-                    Size = UDim2.new(1, 0, 0, 0),
-                    Position = UDim2.fromOffset(0, 0),
-                    BackgroundTransparency = 1,
-                    AutomaticSize = Enum.AutomaticSize.Y,
-                    BorderSizePixel = 0,
-                    Parent = self.Holder,
-                    ZIndex = ZIndex,
-                })
-
-                Utility.New("UIListLayout", {
-                    Name = "UIListLayout",
-                    FillDirection = Enum.FillDirection.Vertical,
-                    SortOrder = Enum.SortOrder.LayoutOrder,
-                    Parent = Objects.Holder,
-                    Padding = UDim.new(0, 5),
-                })
-
-                ZIndex += 1
-
-                Objects.Line = Utility.New("TextButton", {
-                    Name = "Line",
-                    Size = UDim2.new(1, 0, 0, 0),
-                    Position = UDim2.fromOffset(0, 0),
-                    BackgroundTransparency = 1,
-                    AutoButtonColor = false,
-                    AutomaticSize = Enum.AutomaticSize.Y,
-                    Style = Enum.ButtonStyle.Custom,
-                    Text = "",
-                    Parent = Objects.Holder,
-                    ZIndex = ZIndex,
-                })
-
-                Utility.New("UIListLayout", {
-                    Name = "UIListLayout",
-                    FillDirection = Enum.FillDirection.Vertical,
-                    SortOrder = Enum.SortOrder.LayoutOrder,
-                    Parent = Objects.Line,
-                    Padding = UDim.new(0, 2),
-                })
-
-                ZIndex += 1
-
-                Objects.Text = Utility.New("TextLabel", {
-                    Name = "Text",
-                    TextStrokeTransparency = 0.8,
-                    BackgroundTransparency = 1,
-                    TextSize = Library.FontSize,
-                    FontFace = Library.Font,
-                    Size = UDim2.new(1, 0, 0, 0),
-                    AutomaticSize = Enum.AutomaticSize.Y,
-                    Text = cfg.name,
-                    TextXAlignment = Enum.TextXAlignment.Left,
-                    Parent = Objects.Line,
-                    ZIndex = ZIndex,
-                }, { TextColor3 = "Dark Text" })
-
-                Utility.New("UIListLayout", {
-                    Name = "UIListLayout",
-                    FillDirection = Enum.FillDirection.Horizontal,
-                    SortOrder = Enum.SortOrder.LayoutOrder,
-                    HorizontalAlignment = Enum.HorizontalAlignment.Right,
-                    Parent = Objects.Text,
-                    Padding = UDim.new(0, 2),
-                })
-
-                ZIndex += 1
-
-                Objects.SideHolder = Utility.New("Frame", {
-                    Name = "SideHolder",
-                    Size = UDim2.new(0, 0, 1, 0),
-                    AutomaticSize = Enum.AutomaticSize.X,
-                    Position = UDim2.fromOffset(0, 0),
-                    BackgroundTransparency = 1,
-                    BorderSizePixel = 0,
-                    Parent = Objects.Text,
-                    ZIndex = ZIndex,
-                })
-
-                Utility.New("UIListLayout", {
-                    Name = "UIListLayout",
-                    FillDirection = Enum.FillDirection.Horizontal,
-                    SortOrder = Enum.SortOrder.LayoutOrder,
-                    HorizontalAlignment = Enum.HorizontalAlignment.Right,
-                    Parent = Objects.SideHolder,
-                    Padding = UDim.new(0, 2),
-                }) 
-
-                List.SideHolder = Objects.SideHolder
-
-                ZIndex += 1
-
-                if cfg.description then
-                    Objects.Description = Utility.New("TextLabel", {
-                        Name = "Description",
-                        TextStrokeTransparency = 0.8,
-                        BackgroundTransparency = 1,
-                        TextSize = Library.FontSize - 2,
-                        FontFace = Library.Font,
-                        Size = UDim2.new(1, 0, 0, 0),
-                        AutomaticSize = Enum.AutomaticSize.Y,
-                        Text = cfg.description,
-                        TextXAlignment = Enum.TextXAlignment.Left,
-                        Parent = Objects.Line,
-                        ZIndex = ZIndex,
-                        TextWrapped = true,
-                    }, { TextColor3 = "Light Text" })
-
-                    ZIndex += 1
-                end
-
-                Objects.Outline = Utility.New("TextButton", {
-                    Name = "Outline",
-                    Size = UDim2.new(1, 0, 0, cfg.size),
-                    Position = UDim2.fromOffset(0, 0),
-                    BorderSizePixel = 0,
-                    AutoButtonColor = false,
-                    Style = Enum.ButtonStyle.Custom,
-                    Text = "",
-                    Parent = Objects.Holder,
-                    ZIndex = ZIndex,
-                }, { BackgroundColor3 = "Inline" })
-
-                Utility.New("UICorner", {
-                    Name = "UICorner",
-                    CornerRadius = UDim.new(0, 5),
-                    Parent = Objects.Outline,
-                })
-
-                ZIndex += 1
-
-                Objects.Background = Utility.New("Frame", {
-                    Name = "Background",
-                    Size = UDim2.new(1, -2, 1, -2),
-                    Position = UDim2.fromOffset(1, 1),
-                    BorderSizePixel = 0,
-                    Parent = Objects.Outline,
-                    ZIndex = ZIndex,
-                    ClipsDescendants = true,
-                }, { BackgroundColor3 = "Background" })
-
-                Utility.New("UICorner", {
-                    Name = "UICorner",
-                    CornerRadius = UDim.new(0, 5),
-                    Parent = Objects.Background,
-                })
-
-                Utility.New("UIPadding", {
-                    Name = "UIPadding",
-                    PaddingLeft = UDim.new(0, 5),
-                    PaddingRight = UDim.new(0, 5),
-                    PaddingTop = UDim.new(0, 5),
-                    PaddingBottom = UDim.new(0, 5),
-                    Parent = Objects.Background
-                })
-
-                ZIndex += 1
-
-                Objects.Scrolling = Utility.New("ScrollingFrame", {
-                    Name = "Scrolling",
-                    Size = UDim2.new(1, 0, 1, 0),
-                    Position = UDim2.fromOffset(0, 0),
-                    BackgroundTransparency = 1,
-                    BorderSizePixel = 0,
-                    Parent = Objects.Background,
-                    ZIndex = ZIndex,
-                    AutomaticCanvasSize = Enum.AutomaticSize.Y,
-                    CanvasSize = UDim2.new(0, 0, 0, 0),
-                    BottomImage = Library.ScrollBar,
-                    MidImage = Library.ScrollBar,
-                    TopImage = Library.ScrollBar,
-                    ScrollBarThickness = 2,
-                }, { ScrollBarImageColor3 = "Accent" })
-
-                ZIndex += 1
-
-                Objects.Content = Utility.New("Frame", {
-                    Name = "Content",
-                    Size = UDim2.new(1, 0, 0, 0),
-                    AutomaticSize = Enum.AutomaticSize.Y,
-                    Position = UDim2.fromOffset(0, 0),
-                    BackgroundTransparency = 1,
-                    BorderSizePixel = 0,
-                    Parent = Objects.Scrolling,
-                    ZIndex = ZIndex,
-                })
-                
-                Utility.New("UIListLayout", {
-                    Name = "UIListLayout",
-                    FillDirection = Enum.FillDirection.Vertical,
-                    SortOrder = Enum.SortOrder.LayoutOrder,
-                    HorizontalAlignment = Enum.HorizontalAlignment.Center,
-                    Parent = Objects.Content,
-                    Padding = UDim.new(0, 5),
-                })
-
-                ZIndex += 1
-
-            end; List.ZIndex = ZIndex
-
-            function List.Set(value)
-                if cfg.multi then
-                    if type(value) == "table" then -- probably means config/values is loading...
-                        for _,item in List.Items do
-                            item.Select(false)
-                        end
-
-                        for _,item in value do
-                            for _,item2 in List.Items do
-                                if item2.Name == item then
-                                    item2.Select(true)
-                                end
-                            end
-                        end
-
-                        List.Value = value
-
-                        cfg.callback(List.Value)
-
-                        Library.Flags[cfg.flag] = List.Value
-                    else
-                        local Index = table.find(List.Value, value)
-
-                        if Index then
-                            table.remove(List.Value, Index)
-
-                            for _,item in List.Items do
-                                if item.Name == value then
-                                    item.Select(false)
-                                end
-                            end
-
-                            cfg.callback(List.Value)
-
-                            Library.Flags[cfg.flag] = List.Value
-                        else
-                            table.insert(List.Value, value)
-
-                            for _,item in List.Items do
-                                if item.Name == value then
-                                    item.Select(true)
-                                end
-                            end
-
-                            cfg.callback(List.Value)
-
-                            Library.Flags[cfg.flag] = List.Value
-                        end
-                    end
-                else
-                    for _,item in List.Items do
-                        item.Select(item.Name == value)
-                    end
-
-                    List.Value = value
-
-                    cfg.callback(List.Value)
-
-                    Library.Flags[cfg.flag] = List.Value
-                end
-            end
-
-            function List.Add(name)
-                local Item = {
-                    Objects = {},
-
-                    Name = name,
-
-                    Selected = false,
-                }
-
-                local Objs = Item.Objects; do
-                    Objs.Text = Utility.New("TextButton", {
-                        Name = "Text",
-                        TextStrokeTransparency = 0.8,
-                        BackgroundTransparency = 1,
-                        TextSize = Library.FontSize,
-                        FontFace = Library.Font,
-                        Size = UDim2.new(1, 0, 0, 0),
-                        AutomaticSize = Enum.AutomaticSize.Y,
-                        Text = name,
-                        AutoButtonColor = false,
-                        Style = Enum.ButtonStyle.Custom,
-                        TextXAlignment = Enum.TextXAlignment.Left,
-                        Parent = Objects.Content,
-                        ZIndex = ZIndex,
-                    }, { TextColor3 = "Dark Text" })
-                end
-
-                function Item.Select(value)
-                    Library.ChangeObjectTheme(Objs.Text, {
-                        TextColor3 = value and "Text" or "Dark Text",
-                    }, true)
-
-                    Item.Selected = value
-                end
-
-                Utility.Signal(Objs.Text.MouseButton1Click:Connect(function()
-                    List.Set(name)
-                end))
-
-                table.insert(List.Items, Item)
-
-                return Item
-            end
-
-            function List.Refresh(tbl)
-                for _,item in List.Items do
-                    item.Objects.Text:Destroy()
-                end
-
-                List.Items = { }
-
-                List.Value = cfg.multi and { } or nil
-
-                for _,item in tbl do
-                    List.Add(item)
-                end
-            end
-
-            for _,item in cfg.values do
-                List.Add(item)
-            end
-
-            List.Set(cfg.value)
-
-            Library.ConfigFlags[cfg.flag] = List.Set
-
-            return setmetatable(List, Library)
-        end
 
         function Library.Label(self, cfg)
             cfg = cfg or {}; cfg = Library.Config(cfg, {
@@ -5653,7 +5286,7 @@ local Env = getgenv()
                     Padding = UDim.new(0, 5),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Text = Utility.New("TextLabel", {
                     Name = "Text",
@@ -5680,7 +5313,7 @@ local Env = getgenv()
                     Padding = UDim.new(0, 2),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.SideHolder = Utility.New("Frame", {
                     Name = "SideHolder",
@@ -5704,7 +5337,7 @@ local Env = getgenv()
 
                 Label.SideHolder = Objects.SideHolder
 
-                ZIndex += 1            
+                ZIndex = ZIndex + 1            
             end; Label.ZIndex = ZIndex
 
             return setmetatable(Label, Library)
@@ -5763,7 +5396,7 @@ local Env = getgenv()
                     Padding = UDim.new(0, 5),   
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Outline = Utility.New("Frame", {
                     Name = "Outline",
@@ -5781,7 +5414,7 @@ local Env = getgenv()
                     CornerRadius = UDim.new(0, 5),
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Background = Utility.New("Frame", {
                     Name = "Background",
@@ -5815,7 +5448,7 @@ local Env = getgenv()
                     Padding = UDim.new(0, 5),   
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Title = Utility.New("TextLabel", {
                     Name = "Title",
@@ -5831,7 +5464,7 @@ local Env = getgenv()
                     ZIndex = ZIndex,
                 }, { TextColor3 = "Text" })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 if cfg.buttons then
                     Objects.FadeHolder = Utility.New("Frame", {
@@ -5860,7 +5493,7 @@ local Env = getgenv()
                         Padding = UDim.new(0, 2),                 
                     })
 
-                    ZIndex += 1
+                    ZIndex = ZIndex + 1
                 end
                 
                 if cfg.description then
@@ -5879,7 +5512,7 @@ local Env = getgenv()
                         TextWrapped = true,
                     }, { TextColor3 = "Light Text" })
 
-                    ZIndex += 1
+                    ZIndex = ZIndex + 1
                 end
 
                 if cfg.type == "Time" then
@@ -5946,7 +5579,7 @@ local Env = getgenv()
 
         function Library.Watermark(cfg)
             cfg = cfg or { }; cfg = Library.Config(cfg, {
-                text = "Lumora | {game} | {time} | {date}",
+                text = "Symbol | {game} | {time} | {date}",
                 visible = true,
                 rate = 1 / 60,
             })
@@ -5984,7 +5617,7 @@ local Env = getgenv()
                     Parent = Objects.Outline
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Background = Utility.New("Frame", {
                     Name = "Background",
@@ -6010,7 +5643,7 @@ local Env = getgenv()
                     Parent = Objects.Background
                 })
 
-                ZIndex += 1
+                ZIndex = ZIndex + 1
 
                 Objects.Text = Utility.New("TextLabel", {
                     Name = "Text",
@@ -6098,7 +5731,7 @@ local Env = getgenv()
                         local Index = Utility.GetTransparency(obj)
 
                         if not Index then
-                            continue
+                            
                         end
 
                         if type(Index) == "table" then
@@ -6123,14 +5756,14 @@ local Env = getgenv()
                     Objects.Time.Size = UDim2.new(0, (Outline.AbsoluteSize.X - 10) * math.clamp(((notification.Clock - Clock) / notification.Time) * -1, 0, 1), 0, 2)
                 end
 
-                Offset += (Holder.AbsoluteSize.Y + 5) * (Lerp / 255)
+                Offset = Offset + (Holder.AbsoluteSize.Y + 5) * (Lerp / 255)
 
                 if Lerp <= 0 then
                     Holder:Destroy()
 
                     table.remove(Library.Notifications, table.find(Library.Notifications, notification))
 
-                    continue
+                    
                 end
             end
         end; Utility.Signal(RunService.RenderStepped:Connect(Library.HandleNotifications))
@@ -6391,7 +6024,7 @@ local Env = getgenv()
 
             error( string.format( "[DEBUG] (%s)", os.date("%X") ), ... )
         end
-    end; Env.Lumora.Debugging = Debugging
+    end; Env.Symbol.Debugging = Debugging
 --
 
 -- signal
@@ -6462,7 +6095,7 @@ local Env = getgenv()
         end
     
         Signal.Disconnect = Signal.Destroy
-    end; Env.Lumora.Signal = Signal
+    end; Env.Symbol.Signal = Signal
 --
 
 -- playerinfo
@@ -6577,10 +6210,10 @@ local Env = getgenv()
         Utility.Connect(Players.PlayerRemoving:Connect(function(player)
             PlayerInfo.RemovePlayer(player)
         end))
-    end; Env.Lumora.PlayerInfo = PlayerInfo
+    end; Env.Symbol.PlayerInfo = PlayerInfo
 --
 
--- local player data
+-- 
     local LocalPlayerData = nil;
 
     Utility.Connect(RunService.Heartbeat:Connect(LPH_NO_VIRTUALIZE(function()
